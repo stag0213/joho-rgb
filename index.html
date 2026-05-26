@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGB三原色分解体験サイト - 高校生向け画像処理学習</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-palette"></i> RGB三原色分解 体験サイト</h1>
+            <p class="subtitle">デジタル画像の仕組みを楽しく学ぼう！</p>
+        </div>
+    </header>
+
+    <!-- ナビゲーション -->
+    <nav class="nav">
+        <div class="container">
+            <ul>
+                <li><a href="#theory">RGB理論</a></li>
+                <li><a href="#experience">体験しよう</a></li>
+                <li><a href="#examples">実例</a></li>
+                <li><a href="#learning">学習ポイント</a></li>
+                <li><a href="guide.html">使用方法ガイド</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <main class="main">
+        <!-- RGB理論説明セクション -->
+        <section id="theory" class="section theory-section">
+            <div class="container">
+                <h2><i class="fas fa-lightbulb"></i> RGB三原色とは？</h2>
+                <div class="theory-grid">
+                    <div class="theory-card">
+                        <div class="color-demo red-demo">R</div>
+                        <h3>赤 (Red)</h3>
+                        <p>0-255の値で赤の強さを表現</p>
+                    </div>
+                    <div class="theory-card">
+                        <div class="color-demo green-demo">G</div>
+                        <h3>緑 (Green)</h3>
+                        <p>0-255の値で緑の強さを表現</p>
+                    </div>
+                    <div class="theory-card">
+                        <div class="color-demo blue-demo">B</div>
+                        <h3>青 (Blue)</h3>
+                        <p>0-255の値で青の強さを表現</p>
+                    </div>
+                </div>
+                <div class="theory-explanation">
+                    <p><strong>デジタル画像は小さなピクセルの集まり</strong>です。各ピクセルはRGB3色の組み合わせで色を表現しています。</p>
+                    <p>例：赤いリンゴの画像では、赤の部分でR値が高く、G・B値が低くなります。</p>
+                    <p><strong>このサイトでは、各チャンネルをその色で表示</strong>するため、赤チャンネルは赤色、緑チャンネルは緑色、青チャンネルは青色で色の強さを確認できます。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 体験セクション -->
+        <section id="experience" class="section experience-section">
+            <div class="container">
+                <h2><i class="fas fa-camera"></i> RGB分解を体験してみよう！</h2>
+                
+                <!-- 画像アップロード -->
+                <div class="upload-area">
+                    <div class="upload-box" id="uploadBox">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>画像をここにドラッグ&ドロップ<br>または</p>
+                        <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                            <i class="fas fa-folder-open"></i> ファイルを選択
+                        </button>
+                        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                        <p class="file-info">対応形式: JPEG, PNG, GIF (最大5MB)</p>
+                    </div>
+                </div>
+
+                <!-- 結果表示エリア -->
+                <div class="results-area" id="resultsArea" style="display: none;">
+                    <div class="original-image-container">
+                        <h3>元の画像</h3>
+                        <canvas id="originalCanvas"></canvas>
+                    </div>
+                    
+                    <div class="separated-images">
+                        <div class="channel-container red-channel">
+                            <h3><span class="channel-label red">R</span> 赤チャンネル</h3>
+                            <canvas id="redCanvas"></canvas>
+                            <p class="channel-description">赤い部分が赤色で表示されます</p>
+                        </div>
+                        
+                        <div class="channel-container green-channel">
+                            <h3><span class="channel-label green">G</span> 緑チャンネル</h3>
+                            <canvas id="greenCanvas"></canvas>
+                            <p class="channel-description">緑の部分が緑色で表示されます</p>
+                        </div>
+                        
+                        <div class="channel-container blue-channel">
+                            <h3><span class="channel-label blue">B</span> 青チャンネル</h3>
+                            <canvas id="blueCanvas"></canvas>
+                            <p class="channel-description">青い部分が青色で表示されます</p>
+                        </div>
+                    </div>
+
+                    <div class="controls">
+                        <button class="btn btn-primary" id="downloadBtn">
+                            <i class="fas fa-download"></i> 分解画像をダウンロード
+                        </button>
+                        <button class="btn btn-secondary" id="resetBtn">
+                            <i class="fas fa-redo"></i> 別の画像を試す
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 実例セクション -->
+        <section id="examples" class="section examples-section">
+            <div class="container">
+                <h2><i class="fas fa-images"></i> 実例で理解しよう</h2>
+                <div class="examples-grid">
+                    <div class="example-card">
+                        <h3>🍎 赤いリンゴの場合</h3>
+                        <ul>
+                            <li><strong>赤チャンネル:</strong> リンゴの部分が鮮やかな赤色で見える</li>
+                            <li><strong>緑チャンネル:</strong> リンゴの部分が暗く（緑成分が少ない）見える</li>
+                            <li><strong>青チャンネル:</strong> リンゴの部分が暗く（青成分が少ない）見える</li>
+                        </ul>
+                    </div>
+                    <div class="example-card">
+                        <h3>🌊 青い海の場合</h3>
+                        <ul>
+                            <li><strong>赤チャンネル:</strong> 海の部分が暗く（赤成分が少ない）見える</li>
+                            <li><strong>緑チャンネル:</strong> 海の部分が中程度の緑色で見える</li>
+                            <li><strong>青チャンネル:</strong> 海の部分が鮮やかな青色で見える</li>
+                        </ul>
+                    </div>
+                    <div class="example-card">
+                        <h3>🌳 緑の葉の場合</h3>
+                        <ul>
+                            <li><strong>赤チャンネル:</strong> 葉の部分が暗く（赤成分が少ない）見える</li>
+                            <li><strong>緑チャンネル:</strong> 葉の部分が鮮やかな緑色で見える</li>
+                            <li><strong>青チャンネル:</strong> 葉の部分が暗く（青成分が少ない）見える</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 学習ポイントセクション -->
+        <section id="learning" class="section learning-section">
+            <div class="container">
+                <h2><i class="fas fa-graduation-cap"></i> 学習ポイント</h2>
+                <div class="learning-points">
+                    <div class="point-card">
+                        <div class="point-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>人間の視覚との関係</h3>
+                        <p>人間の目には赤・緑・青の光を感知する細胞があり、RGB分解はこの仕組みを応用したものです。</p>
+                    </div>
+                    <div class="point-card">
+                        <div class="point-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3>数値での色表現</h3>
+                        <p>各色を0-255の256段階で表現することで、約1677万色（256³）を再現できます。</p>
+                    </div>
+                    <div class="point-card">
+                        <div class="point-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3>実用的な応用</h3>
+                        <p>画像処理、医療診断、人工衛星画像の解析など、様々な分野で活用されています。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 RGB三原色分解体験サイト | 教育目的で作成されました</p>
+            <div class="footer-links">
+                <a href="#theory">理論</a>
+                <a href="#experience">体験</a>
+                <a href="#examples">実例</a>
+                <a href="#learning">学習</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>
